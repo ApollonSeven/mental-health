@@ -8,18 +8,22 @@
  * @format
  */
 
-import { ApplicationProvider, Layout } from '@ui-kitten/components'
+import { ApplicationProvider, IconRegistry, Layout } from '@ui-kitten/components'
 import React from 'react'
-import MentalMath from './src/screens/MentalMath'
 import * as eva from '@eva-design/eva'
+import Navigation from './src/navigation'
+import { EvaIconsPack } from '@ui-kitten/eva-icons'
 
 const App = () => {
   return (
+    <>
+    <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={eva.dark}>
       <Layout style={{ flex: 1, justifyContent: 'center' }}>
-        <MentalMath />
+       <Navigation />
       </Layout>
     </ApplicationProvider>
+    </>
   )
 }
 
