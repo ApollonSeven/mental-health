@@ -24,7 +24,8 @@ export const styles = StyleSheet.create({
     borderColor: 'red'
   },
   textInput: {
-    fontSize: 18
+    fontSize: 18,
+    color: "#fff"
   },
   keyboard: {
     marginTop: 40
