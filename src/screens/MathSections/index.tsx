@@ -8,9 +8,9 @@ import { styles } from './styles'
 const MathSections = () => {
   const navigation = useNavigation()
 
-  const List = mathSections.map(({ title, text, type, value }, index) => (
+  const List = mathSections.map(({ title, text, type, value, body }, index) => (
     <View style={styles.item} key={`${title}+${index}`}>
-      <Card style={styles.card} onPress={() => navigation.navigate('MathSection', { type, value })}>
+      <Card style={styles.card} onPress={() => navigation.navigate('MathSection', { type, value, body })}>
         <Text category="h1" style={styles.title}>
           {title}
         </Text>

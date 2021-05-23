@@ -32,6 +32,12 @@ export const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
-    marginHorizontal: 15
+    marginHorizontal: 5
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0,0,0,0.5)'
+  },
+  modal: {
+    width: "80%"
   }
 })
