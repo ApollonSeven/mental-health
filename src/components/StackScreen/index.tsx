@@ -18,7 +18,10 @@ const StackScreen = ({ screens }: StackSreenProps) => {
             component={screen.component}
             options={{
               headerStyle: {
-                backgroundColor: theme['background-basic-color-1']
+                backgroundColor: theme['background-basic-color-1'],
+                elevation: 0,
+                shadowOpacity: 0,
+                borderBottomWidth: 0,
               },
               headerTintColor: theme['text-basic-color'],
               ...screen.options

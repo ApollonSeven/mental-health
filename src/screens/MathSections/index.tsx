@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Card, Layout, Text } from '@ui-kitten/components'
 import React from 'react'
 import { View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { mathSections } from '../../constants/mental-math'
 import { styles } from './styles'
 
@@ -19,7 +20,13 @@ const MathSections = () => {
     </View>
   ))
 
-  return <Layout style={styles.container}>{List}</Layout>
+  return (
+    <ScrollView>
+      <Layout style={styles.container} level="1">
+        {List}
+      </Layout>
+    </ScrollView>
+  )
 }
 
 export default MathSections

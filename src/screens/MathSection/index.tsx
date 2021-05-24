@@ -1,17 +1,14 @@
-import { Button, Card, Input, Layout, Modal, Text, useTheme } from '@ui-kitten/components'
+import { Card, Input, Layout, Modal, Text, useTheme } from '@ui-kitten/components'
 import React, { useEffect, useRef, useState } from 'react'
-
 import { mathOperationTitles } from '../../constants/mental-math'
 import { getRandomInteger } from '../../utils/get-random-integer'
-import VirtualKeyboard from 'react-native-virtual-keyboard'
 import { styles } from './styles'
 import { getMathResult } from '../../utils/get-math-result'
-import ChevronRightIcon from '../../icons/ChevronRightIcon'
-import TrashIcon from '../../icons/TrashIcon'
-import CustomIcon from '../../icons/CustomIcon'
 import Markdown from 'react-native-markdown-display'
+import NumPad from '../../components/NumPad'
+import { pallette } from '../../constants/pallette'
 
-const buttonSize = "medium"
+// const buttonSize = 'medium'
 
 const MathSection = ({ route }: any) => {
   const [variable, setVariable] = useState(0)
@@ -22,14 +19,14 @@ const MathSection = ({ route }: any) => {
   const checkmarkIconRef = useRef<any>()
   const theme = useTheme()
 
-  const CheckmarkIcon = (props?: any) => (
-    <CustomIcon
-        name="checkmark-outline"
-        animation='shake'
-        ref={checkmarkIconRef}
-        {...props}
-    />
-  )
+  // const CheckmarkIcon = (props?: any) => (
+  //   <CustomIcon
+  //       name="checkmark-outline"
+  //       animation='shake'
+  //       ref={checkmarkIconRef}
+  //       {...props}
+  //   />
+  // )
 
   const onFinish = () => {
     if (getMathResult({
@@ -46,7 +43,17 @@ const MathSection = ({ route }: any) => {
   }
 
   const onChange = (val: string) => {
-    val !== 'back' ? setResult(result + val) : setResult(result.slice(0, -1))
+    switch (val) {
+      case 'back':
+        setResult(result.slice(0, -1))
+        break
+      case 'ok':
+        onFinish()
+        break
+      default:
+        setResult(result + val)
+        break
+    }
     if (isDanger) { setIsDanger(false) }
   }
 
@@ -58,8 +65,7 @@ const MathSection = ({ route }: any) => {
   }, [shouldUpdate])
 
   return (
-    <>
-      <Layout level="1" style={styles.container}>
+    <Layout level="1" style={styles.container}>
         <Layout style={styles.inputs}>
           <Input
             value={route.params.value.toString()}
@@ -90,13 +96,9 @@ const MathSection = ({ route }: any) => {
           />
         </Layout>
         <Layout style={styles.keyboard}>
-          <VirtualKeyboard
-            color="white"
-            pressMode="char"
-            onPress={onChange}
-          />
+          <NumPad onPress={onChange} />
         </Layout>
-        <Layout
+        {/* <Layout
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -129,16 +131,16 @@ const MathSection = ({ route }: any) => {
             style={styles.button}
             size={buttonSize}
             />
-        </Layout>
+        </Layout> */}
         <Modal visible={isModalVisible} onBackdropPress={() => setIsModalVisible(false)}
         backdropStyle={styles.backdrop}
         style={styles.modal}
         >
         <Card disabled={true}>
-        <Markdown 
+        <Markdown
           style={{
-            body: {color: theme['text-basic-color'],},
-            code_block: {backgroundColor: "rgba(0,0,0,0)", borderColor: "rgba(0,0,0,0)"},
+            body: { color: theme['text-basic-color'] },
+            code_block: { backgroundColor: pallette.transparent, borderColor: pallette.transparent }
           }}
         >
             {route.params.body}
@@ -146,9 +148,7 @@ const MathSection = ({ route }: any) => {
         </Card>
       </Modal>
       </Layout>
-    </>
   )
 }
-
 
 export default MathSection

@@ -25,10 +25,12 @@ export const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: 18,
-    color: "#fff"
+    color: '#fff'
   },
   keyboard: {
-    marginTop: 40
+    marginTop: 40,
+    marginHorizontal: 20,
+    borderRadius: 0
   },
   button: {
     marginTop: 20,
@@ -38,6 +40,6 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)'
   },
   modal: {
-    width: "80%"
+    width: '80%'
   }
 })
