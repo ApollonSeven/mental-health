@@ -21,7 +21,7 @@ const MathSections = () => {
   ))
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.wrapper}>
       <Layout style={styles.container} level="1">
         {List}
       </Layout>

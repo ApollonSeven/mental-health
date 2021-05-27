@@ -1,5 +1,12 @@
-import { Card, Input, Layout, Modal, Text, useTheme } from '@ui-kitten/components'
-import React, { useEffect, useRef, useState } from 'react'
+import {
+  Card,
+  Input,
+  Layout,
+  Modal,
+  Text,
+  useTheme
+} from '@ui-kitten/components'
+import React, { useEffect, useState } from 'react'
 import { mathOperationTitles } from '../../constants/mental-math'
 import { getRandomInteger } from '../../utils/get-random-integer'
 import { styles } from './styles'
@@ -7,8 +14,8 @@ import { getMathResult } from '../../utils/get-math-result'
 import Markdown from 'react-native-markdown-display'
 import NumPad from '../../components/NumPad'
 import { pallette } from '../../constants/pallette'
-
-// const buttonSize = 'medium'
+import CustomIcon from '../../icons/CustomIcon'
+import { Pressable, View } from 'react-native'
 
 const MathSection = ({ route }: any) => {
   const [variable, setVariable] = useState(0)
@@ -16,28 +23,21 @@ const MathSection = ({ route }: any) => {
   const [shouldUpdate, setShouldUpdate] = useState(true)
   const [isDanger, setIsDanger] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const checkmarkIconRef = useRef<any>()
+  const [score, setScore] = useState(0)
   const theme = useTheme()
 
-  // const CheckmarkIcon = (props?: any) => (
-  //   <CustomIcon
-  //       name="checkmark-outline"
-  //       animation='shake'
-  //       ref={checkmarkIconRef}
-  //       {...props}
-  //   />
-  // )
-
   const onFinish = () => {
-    if (getMathResult({
-      x: route.params.value,
-      y: variable,
-      operation: route.params.type
-    }) === parseInt(result)) {
+    if (
+      getMathResult({
+        x: route.params.value,
+        y: variable,
+        operation: route.params.type
+      }) === parseInt(result)
+    ) {
       setShouldUpdate(true)
+      setScore(score + 1)
       setResult('')
     } else {
-      checkmarkIconRef?.current.startAnimation()
       setIsDanger(true)
     }
   }
@@ -54,7 +54,14 @@ const MathSection = ({ route }: any) => {
         setResult(result + val)
         break
     }
-    if (isDanger) { setIsDanger(false) }
+    if (isDanger) {
+      setIsDanger(false)
+    }
+  }
+
+  const onClear = () => {
+    setShouldUpdate(true)
+    setScore(0)
   }
 
   useEffect(() => {
@@ -66,88 +73,76 @@ const MathSection = ({ route }: any) => {
 
   return (
     <Layout level="1" style={styles.container}>
-        <Layout style={styles.inputs}>
-          <Input
-            value={route.params.value.toString()}
-            size="large"
-            textStyle={styles.textInput}
-            disabled={true}
-            style={styles.input}
-          />
-          <Text category="h5" style={{ paddingHorizontal: 10 }}>
-            {mathOperationTitles[route.params.type]}
-          </Text>
-          <Input
-            size="large"
-            disabled={true}
-            value={variable.toString()}
-            textStyle={styles.textInput}
-            style={styles.input}
-          />
-          <Text category="h5" style={{ paddingHorizontal: 10 }}>
-            =
-          </Text>
-          <Input
-            size="large"
-            value={result}
-            textStyle={styles.textInput}
-            disabled
-            style={!isDanger ? styles.input : styles.inputDanger}
-          />
-        </Layout>
-        <Layout style={styles.keyboard}>
-          <NumPad onPress={onChange} />
-        </Layout>
-        {/* <Layout
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            <Button
-            accessoryLeft={CheckmarkIcon}
-            onPress={() => onFinish()}
-            style={styles.button}
-            size={buttonSize}
-            />
-            <Button
-            accessoryLeft={(props) => (<CustomIcon {...props} name="info-outline" />)}
-            onPress={() => setIsModalVisible(true)}
-            style={styles.button}
-            size={buttonSize}
-            />
-            <Button
-            accessoryLeft={ChevronRightIcon}
-            onPress={() => {
-              setShouldUpdate(true)
-              setResult("")
-            }}
-            style={styles.button}
-            size={buttonSize}
-            />
-            <Button
-            accessoryLeft={TrashIcon}
-            onPress={() => setResult('')}
-            style={styles.button}
-            size={buttonSize}
-            />
-        </Layout> */}
-        <Modal visible={isModalVisible} onBackdropPress={() => setIsModalVisible(false)}
-        backdropStyle={styles.backdrop}
-        style={styles.modal}
-        >
-        <Card disabled={true}>
-        <Markdown
-          style={{
-            body: { color: theme['text-basic-color'] },
-            code_block: { backgroundColor: pallette.transparent, borderColor: pallette.transparent }
+      <View style={styles.header}>
+      <Pressable
+          android_ripple={{
+            color: '#000',
+            radius: 20
           }}
-        >
+          style={styles.roundButton}
+          onPress={() => onClear()}
+          >
+          <CustomIcon
+            name="trash-outline"
+            style={{ height: 20, tintColor: '#FFFFFF', width: 20 }}
+          />
+        </Pressable>
+        <View style={styles.scoreBlock}>
+          <Text category="h4">{score}</Text>
+        </View>
+        <Pressable
+          android_ripple={{
+            color: '#000',
+            radius: 20
+          }}
+          style={styles.roundButton}
+          onPress={() => { setIsModalVisible(true) }}
+          >
+          <CustomIcon
+            name="question-mark-outline"
+            style={{ height: 20, tintColor: '#FFFFFF', width: 20 }}
+          />
+        </Pressable>
+      </View>
+      <Layout style={styles.inputs}>
+        <Text category="h5">{route.params.value.toString()}</Text>
+        <Text category="h5" style={{ paddingHorizontal: 10 }}>
+          {mathOperationTitles[route.params.type]}
+        </Text>
+        <Text category="h5">{variable.toString()}</Text>
+        <Text category="h5" style={{ paddingHorizontal: 10 }}>
+          =
+        </Text>
+        <Input
+          size="large"
+          value={result}
+          textStyle={styles.textInput}
+          disabled
+          style={!isDanger ? styles.input : styles.inputDanger}
+        />
+      </Layout>
+      <Layout style={styles.keyboard}>
+        <NumPad onPress={onChange} />
+      </Layout>
+      <Modal
+        visible={isModalVisible}
+        onBackdropPress={() => setIsModalVisible(false)}
+        backdropStyle={styles.backdrop}
+        style={styles.modal}>
+        <Card disabled={true}>
+          <Markdown
+            style={{
+              body: { color: theme['text-basic-color'] },
+              code_block: {
+                backgroundColor: pallette.transparent,
+                borderColor: pallette.transparent
+              }
+            }}>
             {route.params.body}
           </Markdown>
         </Card>
       </Modal>
-      </Layout>
+    </Layout>
   )
 }
 

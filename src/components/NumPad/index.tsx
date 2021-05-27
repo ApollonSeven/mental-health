@@ -3,8 +3,8 @@ import { Card, Layout, Text } from '@ui-kitten/components'
 import { numPadComponents } from '../../constants/common'
 import { View } from 'react-native'
 import { styles } from './styles'
-import TrashIcon from '../../icons/TrashIcon'
 import { NumPadProps } from './types'
+import CustomIcon from '../../icons/CustomIcon'
 
 const NumPad = ({
   onPress
@@ -16,7 +16,7 @@ const NumPad = ({
                   ? <Text category="h4" style={styles.title}>
                     {title}
                 </Text>
-                  : <TrashIcon name={icon} style={{ height: 35, tintColor: '#FFFFFF', width: 30 }} />
+                  : <CustomIcon name={icon} style={{ height: 35, tintColor: '#FFFFFF', width: 30 }} />
                 }
             </Card>
         </View>)

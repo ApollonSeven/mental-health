@@ -23,8 +23,33 @@ export const styles = StyleSheet.create({
     minWidth: 80,
     borderColor: 'red'
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    marginBottom: 60
+  },
+  roundButton: {
+    padding: 8,
+    borderRadius: 100,
+    borderColor: '#fff',
+    borderWidth: 2,
+    marginHorizontal: 20
+  },
+  scoreBlock: {
+    padding: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    width: 60,
+    height: 60,
+    borderColor: '#fff',
+    borderWidth: 2,
+    marginHorizontal: 20
+  },
   textInput: {
-    fontSize: 18,
+    fontSize: 19,
     color: '#fff'
   },
   keyboard: {
